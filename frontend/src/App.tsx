@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Sidebar from "./assets/components/layout/Sidebar";
+import Topbar from "./assets/components/layout/Topbar";
+import UsersPage from "./assets/pages/UsersPage";
+
+
+type SectionId = "users" | "roles" | "apps" | "audit" | "settings";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeSection, setActiveSection] = useState<SectionId>("users");
+
+  const sectionTitleMap: Record<SectionId, string> = {
+    users: "Users",
+    roles: "Roles & Permissions",
+    apps: "Applications",
+    audit: "Audit Log",
+    settings: "Settings",
+  };
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "users":
+        return <UsersPage />;
+      case "roles":
+        return (
+          <div className="placeholder">
+            <h2>Roles & Permissions</h2>
+            <p>Here we will manage roles and role-based access.</p>
+          </div>
+        );
+      case "apps":
+        return (
+          <div className="placeholder">
+            <h2>Applications</h2>
+            <p>Here we will manage SaaS apps and user assignments.</p>
+          </div>
+        );
+      case "audit":
+        return (
+          <div className="placeholder">
+            <h2>Audit Log</h2>
+            <p>Here we will show all admin actions and Okta sync status.</p>
+          </div>
+        );
+      case "settings":
+        return (
+          <div className="placeholder">
+            <h2>Settings</h2>
+            <p>General portal settings will go here.</p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app-root">
+      <Sidebar
+        activeSection={activeSection}
+        onChangeSection={(sectionId) =>
+          setActiveSection(sectionId as SectionId)
+        }
+      />
+
+      <div className="app-main">
+        <Topbar title={sectionTitleMap[activeSection]} />
+        <main className="app-content">{renderContent()}</main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
