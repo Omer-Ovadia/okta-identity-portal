@@ -342,3 +342,54 @@ body {
 .placeholder h2 {
   margin-top: 0;
 }
+
+/* New user form */
+
+.user-form-card {
+  margin-top: 6px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 14px 16px;
+}
+
+.user-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.form-label {
+  flex: 1;
+  min-width: 180px;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-input {
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  font-size: 0.85rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.user-form-actions {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
