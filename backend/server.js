@@ -62,6 +62,26 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+app.delete("/api/deleteUser/:id", async (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  try {
+    const deleted = await User.findByIdAndDelete(userId);
+    if (!deleted) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
+
 // POST /api/users - יצירת משתמש חדש
 app.post("/api/users", async (req, res) => {
   try {

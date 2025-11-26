@@ -211,6 +211,32 @@ function UsersPage() {
     );
   }
 
+    // ------------------ פונקציית מחיקת משתמש ------------------
+  const handleDeleteUser = async (id?: string) => {
+    if (!id) return;
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/deleteUser/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        console.error("Delete user error:", errorBody);
+        alert("Failed to delete user");
+        return;
+      }
+
+      // הסרת המשתמש מהרשימה המקומית כדי לעדכן את הטבלה בלי רענון
+      setUsers((prev) => prev.filter((u) => u._id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Unexpected error while deleting user");
+    }
+  };
+
+
   // ---------- מצב רשימת משתמשים ----------
   return (
     <section className="users-page">
@@ -304,7 +330,9 @@ function UsersPage() {
                   </td>
                   <td style={{ textAlign: "right" }}>
                     <button className="secondary-button">Edit</button>
-                    <button className="danger-button">Delete</button>
+                    <button className="danger-button" onClick={() => handleDeleteUser(user._id)} >
+                    Delete
+                   </button>
                   </td>
                 </tr>
               ))}
